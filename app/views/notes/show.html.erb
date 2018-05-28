@@ -3,8 +3,22 @@
 <p><%= @note.content %></p>
 
 <button><a href="/">목록</a></button>
-<button><a href="/notes/edit/<%= @note.id %>">수정</a></a></button>
-<button><a href="/notes/destroy/<%= @note.id%>">삭제</a></button>
-<!--<button><a href="/notes/<%= @note.id %>" data-confirm='정말 삭제하시겠습니까?' data-method='delete'>삭제</a></button>-->
+<button><a href="/notes/edit/<%= @note.id %>">수정</a></button>
+<button><a href="/notes/<%= @note.id %>" data-confirm='정말 삭제하시겠습니까?' data-method='delete'>삭제</a></button>
+<hr>
+<p>댓글 <%= @note.comments.count %></p>
+<% @note.comments.each do |c| %>
+<hr/>
+<p><%= c.content %></p>
+<p><%= c.created_at %> </p>
+<a href="/comments/<%= c.id %>" data-confirm='정말 삭제하시겠습니까?' data-method='delete'>삭제</a>
+<% end %>
+<form action='/comments' method='POST'>
+    <input type='hidden' value='<%= @token %>' name='authenticity_token'></input>
+    <input type='hidden' value='<%= @note.id %>' name='note_id'></input>
+    <textarea name='input_content'></textarea>
+    <input type='submit' value='제출'></input>
+</form>
+
 
 
